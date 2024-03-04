@@ -22,6 +22,9 @@ export const todoSlice = createSlice({
     addTodo: (state, action: PayloadAction<ITodo>) => {
       state.todos.push(action.payload)
     },
+    changeFilterStatus: (state, action: PayloadAction<FilterStatus>) => {
+      state.filterStatus = action.payload;
+    },
     changeStatusTodo: (state, action: PayloadAction<{id: number }>) => {
       const { id } = action.payload;
 
@@ -38,6 +41,6 @@ export const todoSlice = createSlice({
   },
 })
 
-export const { changeStatusTodo, addTodo } = todoSlice.actions
+export const { changeStatusTodo, addTodo, changeFilterStatus } = todoSlice.actions
 
 export default todoSlice.reducer
