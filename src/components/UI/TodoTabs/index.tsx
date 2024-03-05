@@ -1,40 +1,57 @@
-import {TabContext, TabList, TabPanel} from "@mui/lab"
-import {Box, Tab} from "@mui/material"
-import {useAppDispatch, useAppSelector} from "../../../hooks/useAppDispatch"
-import {changeFilterStatus} from "../../../store/slices/todoSlice.ts"
-import {FilterStatus} from "../../../interfaces/general.ts"
-import useFilterTodos from "../../../hooks/useFilterTodos.ts"
-import {TodoStatus} from "../../../interfaces/enum.ts"
+import { SyntheticEvent } from "react";
+
+import useFilterTodos from "../../../hooks/useFilterTodos";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
+import { changeFilterStatus } from "../../../store/slices/todoSlice.ts";
+
+import { TabContext, TabList } from "@mui/lab";
+import { Box, Tab } from "@mui/material";
+
+import { FilterStatus } from "../../../interfaces/general.ts";
+import { TodoStatus } from "../../../interfaces/enum.ts";
+
+import TodoList from "../TodoList";
+import { StyledTabPanel } from "./style";
 
 const TodoTabs = () => {
-  const dispatch = useAppDispatch()
-  const {filteredTodos} = useFilterTodos()
+  const dispatch = useAppDispatch();
+  const { filteredTodos, todosLength, uncompletedLength, completedLength } =
+    useFilterTodos();
 
-  const filterStatus = useAppSelector(state => state.todo.filterStatus)
+  const filterStatus = useAppSelector((state) => state.todo.filterStatus);
 
+  // @ts-ignore
+  const handleChange = (event: SyntheticEvent, newValue: FilterStatus) => {
+    dispatch(changeFilterStatus(newValue));
+  };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: FilterStatus) => {
-    dispatch(changeFilterStatus(newValue))
-  }
+  return (
+    <TabContext value={filterStatus}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <TabList onChange={handleChange} variant="fullWidth">
+          <Tab label={`All (${todosLength})`} value="ALL" />
+          <Tab
+            label={`Completed (${completedLength})`}
+            value={TodoStatus.COMPLETED}
+          />
+          <Tab
+            label={`Uncompleted (${uncompletedLength})`}
+            value={TodoStatus.UNCOMPLETED}
+          />
+        </TabList>
+      </Box>
 
-  return <TabContext value={filterStatus}>
-    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-      <TabList onChange={handleChange} aria-label="lab API tabs example">
-        <Tab label={"All"} value="ALL"/>
-        <Tab label={"Completed"} value={TodoStatus.COMPLETED}/>
-        <Tab label={"Uncompleted"} value={TodoStatus.UNCOMPLETED}/>
-      </TabList>
-    </Box>
-    <TabPanel value="ALL">
-      Item One
-    </TabPanel>
-    <TabPanel value={TodoStatus.COMPLETED}>
-      Item Two
-    </TabPanel>
-    <TabPanel value={TodoStatus.UNCOMPLETED}>
-      Item Three
-    </TabPanel>
-  </TabContext>
-}
+      <StyledTabPanel value="ALL">
+        <TodoList list={filteredTodos} />
+      </StyledTabPanel>
+      <StyledTabPanel value={TodoStatus.COMPLETED}>
+        <TodoList list={filteredTodos} />
+      </StyledTabPanel>
+      <StyledTabPanel value={TodoStatus.UNCOMPLETED}>
+        <TodoList list={filteredTodos} />
+      </StyledTabPanel>
+    </TabContext>
+  );
+};
 
-export default TodoTabs
+export default TodoTabs;

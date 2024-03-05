@@ -1,1 +1,1 @@
-export const constants = "Constants"
+export const constants = "Constants";

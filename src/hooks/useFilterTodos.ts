@@ -1,23 +1,50 @@
-import {useMemo} from "react"
+import { useMemo } from "react";
 
-import {useAppSelector} from "./useAppDispatch"
-
+import { useAppSelector } from "./useAppDispatch";
+import { TodoStatus } from "../interfaces/enum";
+import { ITodo } from "../interfaces/general";
 
 const useFilterTodos = () => {
+  const status = useAppSelector((state) => state.todo.filterStatus);
+  const todos = useAppSelector((state) => state.todo.todos);
 
-  const status = useAppSelector((state) => state.todo.filterStatus)
-  const todos = useAppSelector((state) => state.todo.todos)
+  return useMemo(() => {
+    const completedTodos: ITodo[] = [];
+    const unCompletedTodos: ITodo[] = [];
 
-  const filteredTodos = useMemo(() => {
-    if(status === "ALL") return todos
+    for (const todo of todos) {
+      switch (todo.status) {
+        case TodoStatus.COMPLETED: {
+          completedTodos.push(todo);
+          break;
+        }
+        case TodoStatus.UNCOMPLETED: {
+          unCompletedTodos.push(todo);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
 
-    return todos?.filter(todo => todo?.status === status)
-  }, [status, todos])
+    const filteredTodos =
+      status === "ALL"
+        ? todos
+        : status === TodoStatus.UNCOMPLETED
+          ? unCompletedTodos
+          : completedTodos;
+
+    return {
+      filteredTodos,
+      todosLength: todos.length,
+      uncompletedLength: unCompletedTodos.length,
+      completedLength: completedTodos.length,
+    };
+  }, [status, todos]);
+};
+
+export default useFilterTodos;
 
 
-  return {
-    filteredTodos,
-  }
-}
 
-export default useFilterTodos
