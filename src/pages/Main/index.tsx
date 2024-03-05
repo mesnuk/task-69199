@@ -18,6 +18,7 @@ const Main = () => {
           flexDirection: "column",
           maxWidth: "500px",
           margin: "20px auto",
+          padding: '0 10px'
         }}
       >
         <TodoTitle />
