@@ -1,13 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import {ITodo} from "../../interfaces/general";
-import {TodoStatus} from "../../interfaces/enum";
-
-type FilterStatus = TodoStatus | "ALL";
+import type {PayloadAction} from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
+import {FilterStatus, ITodo} from "../../interfaces/general"
+import {TodoStatus} from "../../interfaces/enum"
 
 interface ITodoState {
-  todos: ITodo[];
-  filterStatus: FilterStatus;
+  todos: ITodo[]
+  filterStatus: FilterStatus
 }
 
 const initialState: ITodoState = {
@@ -23,24 +21,24 @@ export const todoSlice = createSlice({
       state.todos.push(action.payload)
     },
     changeFilterStatus: (state, action: PayloadAction<FilterStatus>) => {
-      state.filterStatus = action.payload;
+      state.filterStatus = action.payload
     },
-    changeStatusTodo: (state, action: PayloadAction<{id: number }>) => {
-      const { id } = action.payload;
+    changeStatusTodo: (state, action: PayloadAction<{ id: number }>) => {
+      const {id} = action.payload
 
-      const todoIndex = state.todos.findIndex(todo => todo.id === id);
+      const todoIndex = state.todos.findIndex(todo => todo.id === id)
 
-      if(todoIndex !== -1){
+      if (todoIndex !== -1) {
         state.todos[todoIndex] = {
           ...state.todos[todoIndex],
           status: state.todos[todoIndex].status === TodoStatus.COMPLETED ? TodoStatus.UNCOMPLETED : TodoStatus.COMPLETED
-        };
+        }
 
       }
     },
   },
 })
 
-export const { changeStatusTodo, addTodo, changeFilterStatus } = todoSlice.actions
+export const {changeStatusTodo, addTodo, changeFilterStatus} = todoSlice.actions
 
 export default todoSlice.reducer

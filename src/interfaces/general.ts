@@ -1,7 +1,9 @@
-import {TodoStatus} from "./enum";
+import {TodoStatus} from "./enum"
 
 export interface ITodo {
-  id: number;
-  name: string;
+  id: number
+  name: string
   status: TodoStatus
 }
+
+export type FilterStatus = TodoStatus | "ALL"

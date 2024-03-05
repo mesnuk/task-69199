@@ -1,23 +1,23 @@
-import {useMemo} from "react";
+import {useMemo} from "react"
 
-import {useAppSelector} from "./useAppDispatch";
+import {useAppSelector} from "./useAppDispatch"
 
 
 const useFilterTodos = () => {
 
-  const status = useAppSelector((state) => state.todo.filterStatus);
-  const todos = useAppSelector((state) => state.todo.todos);
+  const status = useAppSelector((state) => state.todo.filterStatus)
+  const todos = useAppSelector((state) => state.todo.todos)
 
   const filteredTodos = useMemo(() => {
-    if(status === "ALL") return todos;
+    if(status === "ALL") return todos
 
     return todos?.filter(todo => todo?.status === status)
-  }, [status, todos]);
+  }, [status, todos])
 
 
   return {
     filteredTodos,
-  };
+  }
 }
 
-export default useFilterTodos;
+export default useFilterTodos
