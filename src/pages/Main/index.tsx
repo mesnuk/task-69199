@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 import TodoTabs from "../../components/UI/TodoTabs";
 import TodoTitle from "../../components/UI/TodoTitle";
 import TodoCreate from "../../components/UI/TodoCreate";
@@ -16,14 +16,14 @@ const Main = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          maxWidth: "500px",
+          maxWidth: "550px",
           margin: "20px auto",
           padding: '0 10px'
         }}
       >
-        <TodoTitle />
-        <TodoCreate />
-        <TodoTabs />
+        <TodoTitle/>
+        <TodoCreate/>
+        <TodoTabs/>
       </Box>
     </Box>
   );
